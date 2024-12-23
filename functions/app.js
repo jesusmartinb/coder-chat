@@ -37,5 +37,5 @@ io.on('connection', (socket) => {
     });
 });
 
-app.use('/.netlify/functions/app', viewsRoutes);
+app.use('/.netlify/functions/app', app);
 export const handler = serverless(app);
