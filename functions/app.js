@@ -18,12 +18,13 @@ app.set('views', 'functions/views');
 app.set('view engine', 'handlebars');
 
 const router = Router();
+// app.use('/', viewsRoutes);
+app.use('/.netlify/functions/app', router);
 
 router.get('/', (req, res) => {
     res.render('views/index', {title: 'Home'});
 });
 
-// app.use('/', viewsRoutes);
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
@@ -44,5 +45,4 @@ io.on('connection', (socket) => {
     });
 });
 
-app.use('/.netlify/functions/app', router);
 export const handler = serverless(app);
