@@ -1,8 +1,9 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
-import viewsRoutes from './routes/views.routes.js';
+// import viewsRoutes from './routes/views.routes.js';
 import { Server } from 'socket.io';
 import serverless from 'serverless-http';
+import { Router } from 'express';
 
 const PORT = 8080;
 
@@ -16,7 +17,13 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', 'functions/views');
 app.set('view engine', 'handlebars');
 
-app.use('/', viewsRoutes);
+const router = Router();
+
+router.get('/', (req, res) => {
+    res.render('index', {title: 'Home'});
+});
+
+// app.use('/', viewsRoutes);
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
@@ -37,5 +44,5 @@ io.on('connection', (socket) => {
     });
 });
 
-app.use('/.netlify/functions/app', app);
+app.use('/.netlify/functions/app', router);
 export const handler = serverless(app);
