@@ -20,7 +20,7 @@ app.set('view engine', 'handlebars');
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.render('index', {title: 'Home'});
+    res.render('views/index', {title: 'Home'});
 });
 
 // app.use('/', viewsRoutes);
