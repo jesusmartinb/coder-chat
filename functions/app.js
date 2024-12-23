@@ -2,6 +2,7 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import viewsRoutes from './routes/views.routes.js';
 import { Server } from 'socket.io';
+import serverless from 'serverless-http';
 
 const PORT = 8080;
 
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.engine('handlebars', handlebars.engine());
-app.set('views', 'src/views');
+app.set('views', 'functions/views');
 app.set('view engine', 'handlebars');
 
 app.use('/', viewsRoutes);
@@ -35,3 +36,6 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('newUserNotification', userName);
     });
 });
+
+app.use('/.netlify/functions/app', viewsRoutes);
+export const handler = serverless(app);
